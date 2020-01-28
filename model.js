@@ -1,18 +1,18 @@
 let mongoose = require( 'mongoose' );
 
-mongoose.Promise = global.Promise;  //Promesa es cuando yo solicito informacion me llega
+mongoose.Promise = global.Promise;
 
-let studentCollection = mongoose.Schema({     //estamos haciendo la coleccion del estudiante --definiendo la tabla
-    nombre : { type: String },
+let studentCollection = mongoose.Schema({
+    nombre : { type : String },
     apellido : { type: String },
     matricula : {
-        type : Number,
+        type: Number,
         required : true,
         unique : true
     }
 });
 
-let Student = mongoose.model( 'students', studentCollection);
+let Student = mongoose.model( 'students', studentCollection  );
 
 let StudentList = {
     getAll : function(){
@@ -24,25 +24,17 @@ let StudentList = {
                 throw Error( error );
             });
     },
-    /*
-    getById : function(id){
-        return Student.findOne( {matricula: 'id'} )
-            .then( students => {
-                ////////
-            })
-    }
-    */
-   addStudent : function( newStudent ){
-       return Student.create( newStudent )
-
-   }
-
+    create : function( newStudent ){
+		return Student.create( newStudent )
+				.then( student => {
+					return student;
+				})
+				.catch( error => {
+					throw Error(error);
+				});
+	},
 };
-
-
-
 
 module.exports = {
     StudentList
 };
-
